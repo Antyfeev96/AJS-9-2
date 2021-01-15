@@ -1,4 +1,4 @@
-function getBuffer() {
+export function getBuffer() {
   const data = '{"data":{"user":{"id":1,"name":"Hitman","level":10}}}';
   return ((input) => {
     const buffer = new ArrayBuffer(data.length * 2);
@@ -11,21 +11,16 @@ function getBuffer() {
 }
 
 export default class ArrayBufferConverter {
-  constructor() {
-    this.buffer = null;
-  }
-
   load(buffer) {
     this.buffer = buffer;
   }
 
   toString() {
-    this.buffer.toString();
+    const uint16buffer = new Uint16Array(this.buffer);
+    let string = '';
+    for (const prop of uint16buffer) {
+      string += String.fromCharCode(prop);
+    }
+    return string;
   }
 }
-
-const a = getBuffer();
-
-const b = new Uint8Array(a);
-
-console.log(b);
